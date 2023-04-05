@@ -1,0 +1,6 @@
+terraform.tfstate
+.terraform/modules/modules.json
+terraform.tfstate.backup
+.terraform/providers/registry.terraform.io/hashicorp/azurerm/2.99.0/windows_386/terraform-provider-azurerm_v2.99.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/azurerm/3.0.0/windows_386/terraform-provider-azurerm_v3.0.0_x5.exe
+.terraform/providers/registry.terraform.io/hashicorp/azurerm/3.50.0/windows_386/terraform-provider-azurerm_v3.50.0_x5.exe
