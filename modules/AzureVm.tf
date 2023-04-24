@@ -22,16 +22,30 @@ resource "azurerm_subnet" "vm_subnet" {
   resource_group_name  = azurerm_resource_group.vm_rg.name
 }
 
-resource "azurerm_network_interface" "vm_nic" {
-  name                = "${var.prefix}-nic"
-  location            = var.location
+resource "azurerm_network_security_group" "vm_security_group" {
+  name                = "${var.prefix}-sg"
+  location            = azurerm_resource_group.vm_rg.location
   resource_group_name = azurerm_resource_group.vm_rg.name
 
-  ip_configuration {
-    name                          = "${var.prefix}-ipconfig"
-    subnet_id                     = azurerm_subnet.vm_subnet.id
-    private_ip_address_allocation = var.private_ip_address_allocation
-  }
+}
+
+resource "azurerm_network_security_rule" "vm_sec_rule" {
+  name                        = "${var.prefix}-sg-rule"
+  priority                    = 100
+  direction                   = "Outbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.vm_rg.name
+  network_security_group_name = azurerm_network_security_group.vm_security_group.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "vm_sg_sub_association" {
+  subnet_id                 = azurerm_subnet.vm_subnet.id
+  network_security_group_id = azurerm_network_security_group.vm_security_group.id
 }
 
 resource "azurerm_public_ip" "vm_public_ip" {
@@ -41,6 +55,23 @@ resource "azurerm_public_ip" "vm_public_ip" {
   allocation_method   = var.allocation_method
  // ip_address          = var.ip_address
 }
+
+
+
+
+resource "azurerm_network_interface" "vm_nic" {
+  name                = "${var.prefix}-nic"
+  location            = azurerm_resource_group.vm_rg.location
+  resource_group_name = azurerm_resource_group.vm_rg.name
+
+  ip_configuration {
+    name                          = "${var.prefix}-ipconfig"
+    subnet_id                     = azurerm_subnet.vm_subnet.id
+    private_ip_address_allocation = var.private_ip_address_allocation
+    public_ip_address_id = azurerm_public_ip.vm_public_ip.id
+  }
+}
+
 
 resource "azurerm_virtual_machine" "vm" {
   name                  = "${var.prefix}-vm"
