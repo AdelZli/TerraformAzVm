@@ -40,6 +40,10 @@ variable "address_prefixes" {
   default     = ["10.0.0.0/16"]
   description = "Address space for the virtual network"
 }
+variable "ip_address" {
+  type = string
+  default = "10.0.0.4"
+}
 variable "private_ip_address_allocation" {
   description = "Defines how an IP address is assigned. Options are Static or Dynamic."
   default     = "dynamic"
@@ -47,10 +51,10 @@ variable "private_ip_address_allocation" {
 variable "storage_account_type" {
   description = "Defines the type of storage account to be created. Valid options are Standard_LRS, Standard_ZRS, Standard_GRS, Standard_RAGRS, Premium_LRS."
 }
-variable "ssh_public_key" {
+/*variable "ssh_public_key" {
   description = "Path to the public key to be used for ssh access to the VM.  Only used with non-Windows vms and can be left as-is even if using Windows vms. If specifying a path to a certification on a Windows machine to provision a linux vm use the / in the path versus backslash. e.g. c:/home/id_rsa.pub"
   default     = "~/.ssh/id_rsa.pub"
-}
+}*/
 variable "allocation_method" {
   description = "allocation method : dynamic, static"
 }

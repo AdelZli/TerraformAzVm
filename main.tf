@@ -15,8 +15,9 @@ module "azure_vm" {
   address_prefixes              = var.address_prefixes
   private_ip_address_allocation = var.private_ip_address_allocation
   storage_account_type          = var.storage_account_type
-  ssh_public_key                = var.ssh_public_key
-  allocation_method             = var.allocation_method
+  //ssh_public_key                = var.ssh_public_key
+  allocation_method = var.allocation_method
+  ip_address        = var.ip_address
 }
 
 # Define an output to retrieve the public IP address of the VM
